@@ -1,0 +1,62 @@
+void showSimpleCustomDialog(BuildContext context, data) {
+    Dialog simpleDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          vertical: 10.0,
+        ),
+        height: 150.0,
+        decoration: BoxDecoration(
+          color:Hexcolor('#205CBE'), 
+        ),
+        child: ListView.builder(
+          //scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: data.length, //length of snapshot data
+          itemBuilder: (BuildContext ctxt, int index){
+            return(data.length > 0)
+                ? Expanded(
+                    child: Center(
+                    child: SizedBox(
+                      height: 150.0,
+                      width: 300.0,
+                      child: Carousel(                      
+                        boxFit: BoxFit.cover,
+                        autoplay: false,
+                        animationCurve: Curves.fastOutSlowIn,
+                        animationDuration: Duration(milliseconds: 1000),
+                        dotSize: 6.0,
+                        dotIncreasedColor: Color(0xFFFF335C),
+                        dotBgColor: Colors.transparent,
+                        dotPosition: DotPosition.bottomCenter,
+                        dotVerticalPadding: 10.0,
+                        showIndicator: true,
+                        indicatorBgPadding: 7.0,
+                        images: [
+                           CachedNetworkImage(
+                              imageUrl: data[index]["url"],
+                              height: 150.0,
+                              width: 300,
+                              placeholder: (BuildContext context,
+                                String url) =>
+                                  Container(
+                                      width: 300.0,
+                                      height: 150.0,
+                                      child: Center(
+                                          child:
+                                              CircularProgressIndicator())
+                                  )
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ) : Text("Фото недоступна");
+          } ),
+      ),
+         );
+    showDialog(
+        context: context, builder: (BuildContext context) => simpleDialog);
+  }
